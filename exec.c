@@ -1,136 +1,87 @@
 #include "shell.h"
 
 /**
- * splitstring - splits a string and makes it an array of pointers to words
- * @str: the string to be split
- * @delim: the delimiter
- * Return: array of pointers to words
+ * handle_builtin - Handle Builtin Command
+ * @cmd: Parsed Command
+ * @st:status of last Excute
+ * Return: -1 Fail 0 Succes (Excute status)
  */
 
-char **splitstring(char *str, const char *delim)
+int handle_builtin(char **cmd, int st)
 {
-	int i, wn;
-	char **array;
-	char *token;
-	char *copy;
+	built_t builtin[] = {
+		{"cd", change_dir},
+		{"env", dis_env},
+		{"help", dis_help},
+		{"echo", echo_builtin},
+		{"history", dis_history},
+		{NULL, NULL}
+	};
+	int i = 0;
 
-	copy = malloc(_strlen(str) + 1);
-	if (copy == NULL)
+	while ((builtin + i)->command)
 	{
-		perror(_getenv("_"));
-		return (NULL);
-	}
-	i = 0;
-	while (str[i])
-	{
-		copy[i] = str[i];
+		if (_strcmp(cmd[0], (builtin + i)->command) == 0)
+		{
+			return ((builtin + i)->fun(cmd, st));
+		}
 		i++;
 	}
-	copy[i] = '\0';
-
-	token = strtok(copy, delim);
-	array = malloc((sizeof(char *) * 2));
-	array[0] = _strdup(token);
-
-	i = 1;
-	wn = 3;
-	while (token)
-	{
-		token = strtok(NULL, delim);
-		array = _realloc(array, (sizeof(char *) * (wn - 1)), (sizeof(char *) * wn));
-		array[i] = _strdup(token);
-		i++;
-		wn++;
-	}
-	free(copy);
-	return (array);
+	return (-1);
 }
-
 /**
- * execute - executes a command
- * @argv: array of arguments
+ * check_cmd - Excute Simple Shell Command (Fork,Wait,Excute)
+ * @cmd:Parsed Command
+ * @uinput: User Input
+ * @c:Shell Excution Time Case of Command Not Found
+ * @argv:Program Name
+ * Return: 1 Case Command Null -1 Wrong Command 0 Command Excuted
  */
-
-void execute(char **argv)
+int check_cmd(char **cmd, char *uinput, int c, char **argv)
 {
+	int status;
+	pid_t pid;
 
-	int d, status;
-
-	if (!argv || !argv[0])
-		return;
-	d = fork();
-	if (d == -1)
+	if (*cmd == NULL)
 	{
-		perror(_getenv("_"));
+		return (-1);
 	}
-	if (d == 0)
+
+	pid = fork();
+	if (pid == -1)
 	{
-		execve(argv[0], argv, environ);
-			perror(argv[0]);
-		exit(EXIT_FAILURE);
+		perror("Error");
+		return (-1);
+	}
+
+	if (pid == 0)
+	{
+		if (_strncmp(*cmd, "./", 2) != 0 && _strncmp(*cmd, "/", 1) != 0)
+		{
+			path_cmd(cmd);
+		}
+
+		if (execve(*cmd, cmd, environ) == -1)
+		{
+			print_error(cmd[0], c, argv);
+			free(uinput);
+			free(cmd);
+			exit(EXIT_FAILURE);
+		}
+		return (EXIT_SUCCESS);
 	}
 	wait(&status);
+	return (0);
 }
-
 /**
- * _realloc - Reallocates memory block
- * @ptr: previous pointer
- * @old_size: old size of previous pointer
- * @new_size: new size for our pointer
- * Return: New resized Pointer
+ * signal_to_handle - Handle ^D
+ * @sig: Signal
+ * Return: Void
  */
-
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
+void signal_to_handle(int sig)
 {
-	char *new;
-	char *old;
-
-	unsigned int i;
-
-	if (ptr == NULL)
-		return (malloc(new_size));
-
-	if (new_size == old_size)
-		return (ptr);
-
-	if (new_size == 0 && ptr != NULL)
+	if (sig == SIGINT)
 	{
-		free(ptr);
-		return (NULL);
+		printf("\n#simple_shell$ ");
 	}
-
-	new = malloc(new_size);
-	old = ptr;
-	if (new == NULL)
-		return (NULL);
-
-	if (new_size > old_size)
-	{
-		for (i = 0; i < old_size; i++)
-			new[i] = old[i];
-		free(ptr);
-		for (i = old_size; i < new_size; i++)
-			new[i] = '\0';
-	}
-	if (new_size < old_size)
-	{
-		for (i = 0; i < new_size; i++)
-			new[i] = old[i];
-		free(ptr);
-	}
-	return (new);
-}
-
-/**
- * freearv - frees the array of pointers arv
- *@arv: array of pointers
- */
-
-void freearv(char **arv)
-{
-	int i;
-
-	for (i = 0; arv[i]; i++)
-		free(arv[i]);
-	free(arv);
 }

@@ -74,11 +74,11 @@ int check_cmd(char **cmd, char *uinput, int c, char **argv)
 	return (0);
 }
 /**
- * signal_to_handel - Handle ^D
+ * signal_to_handle - Handle ^D
  * @sig: Signal
  * Return: Void
  */
-void signal_to_handel(int sig)
+void signal_to_handle(int sig)
 {
 	if (sig == SIGINT)
 	{

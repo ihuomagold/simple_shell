@@ -29,7 +29,7 @@ extern char **environ;
 /** STRING FUNCTION **/
 
 char *_strtok(char *str, const char *tok);
-unsigned int delimiter(char c, const char *str);
+unsigned int delim_check(char c, const char *str);
 char *_strncpy(char *dest, char *src, int n);
 int _strlen(char *s);
 int _putchar(char c);

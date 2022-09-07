@@ -92,7 +92,7 @@ int print_echo(char **cmd);
 void print_number(unsigned int n);
 void print_number_in(int n);
 void print_error(char *line, int c, char **argv);
-void _prerror(char **argv, int c, char **cmd);
+void prerror(char **argv, int c, char **cmd);
 
 
 /**

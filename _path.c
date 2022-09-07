@@ -87,7 +87,6 @@ char *_getenv(char *name)
 				value[j] = environ[i][x];
 			}
 			value[j] = '\0';
-			
 			return (value);
 		}
 }

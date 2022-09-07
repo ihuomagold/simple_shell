@@ -16,9 +16,7 @@ int _putchar(char c)
 
 /**
  * _puts - print a string
- * @str:pointer char
- *
- * return:void
+ * @str: pointer char
  */
 
 void _puts(char *str)
@@ -30,7 +28,6 @@ void _puts(char *str)
 		_putchar(str[i]);
 	}
 	_putchar('\n');
-	return;
 }
 
 /**
@@ -60,4 +57,23 @@ int _atoi(char *s)
 		j++;
 	}
 	return (n);
+}
+
+/**
+ * _strlen - lenght of string
+ * @s:char
+ *
+ * Return:int
+ *
+ */
+
+int _strlen(char *s)
+{
+	int i;
+
+	for (i = 0; s[i] != '\0'; i++)
+	{
+		continue;
+	}
+	return (i);
 }

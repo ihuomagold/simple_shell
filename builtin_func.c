@@ -21,7 +21,7 @@ void  exit_builtin(char **cmd, char *input, char **argv, int c)
 	{
 		if (_isalpha(cmd[1][i++]) != 0)
 		{
-			_prerror(argv, c, cmd);
+			prerror(argv, c, cmd);
 			break;
 		}
 		else

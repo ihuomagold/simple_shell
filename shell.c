@@ -18,7 +18,7 @@ int main(__attribute__((unused)) int argc, char **argv)
 	signal(SIGINT, signal_to_handle);
 	while (status)
 	{
-		counter++;												
+		counter++;
 		if (isatty(STDIN_FILENO))
 			prompt();
 		input = _getline();
@@ -65,6 +65,7 @@ int check_builtin(char **cmd)
 		{NULL, NULL}
 	};
 	int i = 0;
+
 	if (*cmd == NULL)
 	{
 		return (-1);
@@ -75,7 +76,7 @@ int check_builtin(char **cmd)
 		if (_strcmp(cmd[0], (fun + i)->command) == 0)
 			return (0);
 		i++;
-	}	
+	}
 	return (-1);
 }
 

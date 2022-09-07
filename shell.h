@@ -84,7 +84,7 @@ int dis_env(char **cmd, int er);
 int change_dir(char **cmd, int er);
 int dis_help(char **cmd, int er);
 int echo_builtin(char **cmd, int er);
-void exit_builtin(char **cmd, char *input, char **argv, int c);
+void  exit_builtin(char **cmd, char *input, char **argv, int c);
 int print_echo(char **cmd);
 
 /** Error Handler and Printer **/

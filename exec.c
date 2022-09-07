@@ -82,6 +82,6 @@ void signal_to_handle(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n#simple_shell$ ");
+		_PRINTF("\n#simple_shell$ ");
 	}
 }

@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * history_dis - Display History Of User Input Simple Shell
+ * dis_history - Display History Of User Input Simple Shell
  * @c: Parsed Command
  * @s: Status of last execute command
  *
@@ -9,7 +9,7 @@
  *
  */
 
-int history_dis(__attribute__((unused))char **c, __attribute__((unused))int s)
+int dis_history(__attribute__((unused))char **c, __attribute__((unused))int s)
 {
 	char *filename = ".simple_shell_history";
 	FILE *fp;
@@ -71,4 +71,37 @@ int print_echo(char **cmd)
 		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 	}
 	return (1);
+}
+
+/**
+ * print_number -Print Unsigned Int Putchar
+ * @n: Unisigned Integer
+ * Return: Void
+ */
+void print_number(unsigned int n)
+{
+	unsigned int x = n;
+
+	if ((x / 10) > 0)
+		print_number(x / 10);
+
+	_putchar(x % 10 + '0');
+}
+/**
+ * print_number_in -Print Number Putchar
+ * @n:Integer
+ * Return: void
+ */
+void print_number_in(int n)
+{
+	unsigned int x = n;
+
+	if (n < 0)
+	{
+		_putchar('-');
+		x = -x;
+	}
+	if ((x / 10) > 0)
+		print_number(x / 10);
+	_putchar(x % 10 + '0');
 }

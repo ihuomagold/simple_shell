@@ -91,7 +91,7 @@ void exit_bul_for_file(char **cmd, char *line, FILE *fd)
 	{
 		if (_isalpha(cmd[1][i++]) < 0)
 		{
-			_prerror("illegal number");
+			prerror("illegal number");
 		}
 	}
 	statue = _atoi(cmd[1]);
